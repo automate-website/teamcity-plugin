@@ -101,36 +101,20 @@
                     return false;
                 },
 
-                syncAccount: function() {
-                    var that = this;
-
-                    // will serialize form params, and submit form to form.action
-                    // if XML with errors is returned, corresponding error listener methods will be called
-                    BS.PasswordFormSaver.save(this, this.formElement().action + '?sync=true',
-                            OO.extend(BS.ErrorsAwareListener, {
-                            	errorUsername : function(elem) {
-                                    $('errorUsername').innerHTML = elem.firstChild.nodeValue;
-                                },
-                                errorPassword : function(elem) {
-                                    $('errorPassword').innerHTML = elem.firstChild.nodeValue;
-                                },
-                                errorConnection : function(elem) {
-                                    AccountSyncDialog.showAccountSyncDialog(false, elem.firstChild.nodeValue);
-                                },
-                                onSuccessfulSave: function() {
-                                    AccountSyncDialog.showAccountSyncDialog(true,
-                                            'Connection was successfully established.');
-                                }
-                            }), false);
-
-                    return false;
+                syncAccount: function(id) {
+                    BS.ajaxRequest('${controllerUrl}', {
+                        parameters: 'id=' + id + '&editMode=sync',
+                        onComplete: function() {
+                            $('objectsTable').refresh();
+                        }
+                    })
                 },
 
-                deleteObject: function(id) {
+                deleteAccount: function(id) {
                     if (!confirm('Are you sure you wish to delete this configuration?')) return false;
 
                     BS.ajaxRequest('${controllerUrl}', {
-                        parameters: 'deleteObject=' + id,
+                        parameters: 'id=' + id + '&editMode=delete',
                         onComplete: function() {
                             $('objectsTable').refresh();
                         }
@@ -151,7 +135,7 @@
         <l:tableWithHighlighting className="settings" highlightImmediately="true" style="width: 80%;">
             <tr>
                 <th>Automate Website Account</th>
-                <th colspan="2">Actions</th>
+                <th colspan="3">Actions</th>
             </tr>
             <c:forEach var="account" items="${serverConfigPersistenceManager.accounts}">
                 <c:set var="onclick">
@@ -164,13 +148,13 @@
                         <c:out value="${account.username}"/>
                     </td>
                     <td class="edit highlight">
-                        <a href="#" onclick="${onclick} return false">sync</a>
+                        <a href="#" onclick="ConfigTabDialog.syncAccount('${account.id}'); return false">sync</a>
                     </td>
                     <td class="edit highlight">
                         <a href="#" onclick="${onclick} return false">edit</a>
                     </td>
                     <td class="edit highlight">
-                        <a href="#" onclick="ConfigTabDialog.deleteObject('${account.id}'); return false">delete</a>
+                        <a href="#" onclick="ConfigTabDialog.deleteAccount('${account.id}'); return false">delete</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -229,7 +213,7 @@
             <input type="hidden" name="id" value="">
             <input type="hidden" name="editMode" value="">
             <input type="hidden" id="publicKey" name="publicKey"
-                   value="qwe"/>
+                   value="<c:out value='${serverConfigPersistenceManager.hexEncodedPublicKey}'/>"/>
             <forms:saving id="saving_configTab"/>
         </div>
 

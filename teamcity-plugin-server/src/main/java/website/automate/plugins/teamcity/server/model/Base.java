@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public abstract class Base implements Serializable {
 
+    private static final long serialVersionUID = -1407298374327171471L;
+    
     private String id;
     
     public Base(){

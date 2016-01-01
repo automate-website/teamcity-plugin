@@ -3,7 +3,12 @@ package website.automate.plugins.teamcity.server.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("account")
 public class Account extends Base {
+
+    private static final long serialVersionUID = -1340244196417263060L;
 
     private String username;
     

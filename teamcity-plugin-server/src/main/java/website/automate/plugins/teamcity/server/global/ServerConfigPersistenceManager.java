@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jetbrains.buildServer.log.Loggers;
 import jetbrains.buildServer.serverSide.ServerPaths;
+import jetbrains.buildServer.serverSide.crypt.RSACipher;
 
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,8 @@ import com.thoughtworks.xstream.XStream;
 
 import website.automate.plugins.teamcity.server.model.Account;
 import website.automate.plugins.teamcity.server.model.Accounts;
+import website.automate.plugins.teamcity.server.model.Project;
+import website.automate.plugins.teamcity.server.model.Scenario;
 
 public class ServerConfigPersistenceManager {
 
@@ -32,6 +35,12 @@ public class ServerConfigPersistenceManager {
     public ServerConfigPersistenceManager(@NotNull ServerPaths serverPaths){
         xStream = new XStream();
         xStream.setClassLoader(Accounts.class.getClassLoader());
+        xStream.processAnnotations(new Class [] {
+                Accounts.class,
+                Account.class,
+                Project.class,
+                Scenario.class
+        });
         
         configFile = new File(serverPaths.getConfigDir(), CONFIG_FILE_NAME);
         loadConfiguration();
@@ -82,6 +91,10 @@ public class ServerConfigPersistenceManager {
     
     private static String generateId(){
         return UUID.randomUUID().toString();
+    }
+    
+    public String getHexEncodedPublicKey() {
+        return RSACipher.getHexEncodedPublicKey();
     }
     
     public synchronized void saveConfiguration(){

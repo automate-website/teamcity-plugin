@@ -3,6 +3,8 @@ package website.automate.plugins.teamcity.server.global;
 import jetbrains.buildServer.controllers.ActionErrors;
 import jetbrains.buildServer.controllers.BaseFormXmlController;
 import jetbrains.buildServer.log.Loggers;
+import jetbrains.buildServer.serverSide.crypt.RSACipher;
+
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,12 +17,12 @@ public class GlobalServerConfigController extends BaseFormXmlController {
     private static final String 
         PARAM_ID = "id",
         PARAM_USERNAME = "username",
-        PARAM_PASSWORD = "password",
-        PARAM_DELETE_OBJECT = "deleteObject",
-        PARAM_EDIT_MODE = "editMode",
-        PARAM_VALUE_EDIT = "edit",
-        PARAM_VALUE_ADD = "add",
-        PARAM_VALUE_SYNC = "sync";
+        PARAM_ENCRYPTED_PASSWORD = "encryptedPassword",
+        PARAM_MODE_VALUE_DELETE = "delete",
+        PARAM_MODE = "editMode",
+        PARAM_MODE_VALUE_EDIT = "edit",
+        PARAM_MODE_VALUE_ADD = "add",
+        PARAM_MODE_VALUE_SYNC = "sync";
     
     private ServerConfigPersistenceManager configPersistenceManager;
 
@@ -48,16 +50,16 @@ public class GlobalServerConfigController extends BaseFormXmlController {
         }
 
         if (isSyncRequest(request)) {
-            ActionErrors errors = testConnection(request);
+            ActionErrors errors = sync(request);
             if (errors.hasErrors()) {
                 errors.serialize(xmlResponse);
             }
             return;
         }
         
-        String id = isDeleteMode ? request.getParameter(PARAM_DELETE_OBJECT) : request.getParameter(PARAM_ID);
+        String id = request.getParameter(PARAM_ID);
         String username = request.getParameter(PARAM_USERNAME);
-        String password = request.getParameter(PARAM_PASSWORD);
+        String password = getPassword(request);
 
         if (isEditMode) {
             configPersistenceManager.updateAccount(id, username, password);
@@ -75,7 +77,7 @@ public class GlobalServerConfigController extends BaseFormXmlController {
 
     private ActionErrors validate(final HttpServletRequest request) {
         String username = request.getParameter(PARAM_USERNAME);
-        String password = request.getParameter(PARAM_PASSWORD);
+        String password = getPassword(request);
 
         ActionErrors errors = new ActionErrors();
         if (StringUtils.isBlank(username)) {
@@ -89,29 +91,36 @@ public class GlobalServerConfigController extends BaseFormXmlController {
         return errors;
     }
 
-    private ActionErrors testConnection(final HttpServletRequest request) {
+    private ActionErrors sync(final HttpServletRequest request) {
         ActionErrors errors = new ActionErrors();
         
         return errors;
     }
 
     private boolean isDeleteMode(final HttpServletRequest req) {
-        return req.getParameter(PARAM_DELETE_OBJECT) != null;
+        return PARAM_MODE_VALUE_DELETE.equals(req.getParameter(PARAM_MODE));
     }
 
     private boolean isEditMode(final HttpServletRequest req) {
-        return PARAM_VALUE_EDIT.equals(req.getParameter(PARAM_EDIT_MODE));
+        return PARAM_MODE_VALUE_EDIT.equals(req.getParameter(PARAM_MODE));
     }
 
     private boolean isAddMode(final HttpServletRequest req) {
-        return PARAM_VALUE_ADD.equals(req.getParameter(PARAM_EDIT_MODE));
+        return PARAM_MODE_VALUE_ADD.equals(req.getParameter(PARAM_MODE));
     }
 
     private boolean isSyncRequest(final HttpServletRequest req) {
-        String sync = req.getParameter(PARAM_VALUE_SYNC);
-        return StringUtils.isNotBlank(sync) && Boolean.valueOf(sync);
+        return PARAM_MODE_VALUE_SYNC.equals(req.getParameter(PARAM_MODE));
     }
 
+    private String getPassword(final HttpServletRequest request){
+        String encryptedPassword = request.getParameter(PARAM_ENCRYPTED_PASSWORD);
+        if(encryptedPassword == null){
+            return encryptedPassword;
+        }
+        return RSACipher.decryptWebRequestData(encryptedPassword);
+    }
+    
     private void handleSyncException(ActionErrors errors, Exception e) {
         Throwable throwable = e.getCause();
         String errorMessage;
