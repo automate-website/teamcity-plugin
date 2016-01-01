@@ -25,7 +25,7 @@ public class GlobalServerConfigTab extends SimpleCustomTab {
 
     public GlobalServerConfigTab(final @NotNull WebControllerManager controllerManager,
                                             final @NotNull SecurityContext securityContext,
-                                            final @NotNull AutomateWebsiteServerListener serverListener) {
+                                            final @NotNull ServerListener serverListener) {
         super(controllerManager, PlaceId.ADMIN_SERVER_CONFIGURATION_TAB, TAB_ID,
                 "globalServerConfigTab.jsp",
                 "Automate Website");
