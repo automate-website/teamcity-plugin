@@ -126,6 +126,8 @@
 
                 aw.populateSelect(aw.$selectProject, aw.findProjectsByAccountId(aw.selectedAccount), aw.selectedProject);
                 aw.populateSelect(aw.$selectScenario, aw.findScenariosByAccountIdAndProjectId(aw.selectedAccount, aw.selectedProject), aw.selectedScenarios);
+
+                aw.$inputSelectedScenarios.val('');
             });
 
             aw.$selectProject.change(function(){
@@ -137,6 +139,8 @@
                 aw.selectedProject = selectedProject;
                 
                 aw.populateSelect(aw.$selectScenario, aw.findScenariosByAccountIdAndProjectId(aw.selectedAccount, aw.selectedProject), aw.selectedScenarios);
+
+                aw.$inputSelectedScenarios.val('');
             });
 
 
@@ -147,7 +151,7 @@
     })(jQuery);    
 </script>
 
-<l:settingsGroup title="Execution">
+<l:settingsGroup title="Scenario Selection">
     <tr>
         <th>
             <label for="website.automate.teamcity.account">Account</label>
