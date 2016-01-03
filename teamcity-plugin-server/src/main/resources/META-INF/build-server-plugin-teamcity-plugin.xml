@@ -3,7 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
        default-autowire="constructor">
-  <!-- <bean id="automateWebsiteRunType" class="website.automate.plugins.teamcity.server.AutomateWebsiteRunType"/> -->
+  <bean id="automateWebsiteRunType" class="website.automate.plugins.teamcity.server.AutomateWebsiteRunType"/>
+  
+  <bean id="automateWebsiteEditRunTypeControllerExtension" class="website.automate.plugins.teamcity.server.AutomateWebsiteEditRunTypeControllerExtension"/>
   
   <bean id="serverListener" class="website.automate.plugins.teamcity.server.global.ServerListener"/>
   

@@ -9,6 +9,15 @@ public class Scenario extends Base {
     
     private String title;
 
+    public Scenario(){
+        super();
+    }
+    
+    public Scenario(String id, String title){
+        super(id);
+        this.title = title;
+    }
+    
     public String getTitle() {
         return title;
     }

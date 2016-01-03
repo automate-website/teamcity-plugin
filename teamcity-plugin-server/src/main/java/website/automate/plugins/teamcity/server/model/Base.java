@@ -6,7 +6,7 @@ public abstract class Base implements Serializable {
 
     private static final long serialVersionUID = -1407298374327171471L;
     
-    private String id;
+    protected String id;
     
     public Base(){
     }

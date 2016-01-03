@@ -23,7 +23,7 @@ public class AutomateWebsiteRunType extends RunType {
     
     @Override
     public String getDescription() {
-        return Constants.AUTOMATE_WEBSITE_RUN_TYPE;
+        return Constants.DESCRIPTION;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class AutomateWebsiteRunType extends RunType {
 
     @Override
     public String getType() {
-        return Constants.DESCRIPTION;
+        return Constants.RUN_TYPE;
     }
 
     @Override

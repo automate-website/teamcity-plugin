@@ -2,7 +2,7 @@ package website.automate.plugins.teamcity.common;
 
 public class Constants {
     
-    public static final String AUTOMATE_WEBSITE_RUN_TYPE = "automate-website";
+    public static final String RUN_TYPE = "automate-website";
 
     public static final String DISPLAY_NAME = "Automate Website";
     public static final String DESCRIPTION = "Allows to execute scenarios at automate.website.";

@@ -11,7 +11,16 @@ public class Project extends Base {
     private static final long serialVersionUID = 2332154637587414919L;
 
     private String title;
+
+    public Project(){
+        super();
+    }
     
+    public Project(String id, String title) {
+        super(id);
+        this.title = title;
+    }
+
     private List<Scenario> scenarios = new ArrayList<Scenario>();
     
     public String getTitle() {
