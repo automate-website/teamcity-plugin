@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -19,42 +20,42 @@ import org.jetbrains.annotations.NotNull;
 
 import com.thoughtworks.xstream.XStream;
 
-import website.automate.plugins.teamcity.server.model.Account;
-import website.automate.plugins.teamcity.server.model.Accounts;
-import website.automate.plugins.teamcity.server.model.Project;
-import website.automate.plugins.teamcity.server.model.Scenario;
+import website.automate.plugins.teamcity.server.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.model.ConfigurationSerializable;
+import website.automate.plugins.teamcity.server.model.ProjectSerializable;
+import website.automate.plugins.teamcity.server.model.ScenarioSerializable;
 
 public class ServerConfigPersistenceManager {
 
-    private static final String CONFIG_FILE_NAME = "automate-website-config.xml";
+    static final String CONFIG_FILE_NAME = "automate-website-config.xml";
     
     private File configFile;
-    private final Map<String, Account> configuredAccounts = new ConcurrentHashMap<String, Account>();
+    private final Map<String, AccountSerializable> configuredAccounts = new ConcurrentHashMap<String, AccountSerializable>();
     private XStream xStream;
     
     public ServerConfigPersistenceManager(@NotNull ServerPaths serverPaths){
         xStream = new XStream();
-        xStream.setClassLoader(Accounts.class.getClassLoader());
+        xStream.setClassLoader(ConfigurationSerializable.class.getClassLoader());
         xStream.processAnnotations(new Class [] {
-                Accounts.class,
-                Account.class,
-                Project.class,
-                Scenario.class
+                ConfigurationSerializable.class,
+                AccountSerializable.class,
+                ProjectSerializable.class,
+                ScenarioSerializable.class
         });
         
         configFile = new File(serverPaths.getConfigDir(), CONFIG_FILE_NAME);
         loadConfiguration();
     }
     
-    private void loadConfiguration(){
+    void loadConfiguration(){
         if(configFile.exists()){
             FileInputStream configFileStream = null;
             try {
                 configFileStream = new FileInputStream(configFile);
-                Accounts persistedAccountsWrapper = Accounts.class.cast(xStream.fromXML(configFile));
-                Collection<Account> accounts = persistedAccountsWrapper.getAccounts();
+                ConfigurationSerializable configurationSerializable = ConfigurationSerializable.class.cast(xStream.fromXML(configFile));
+                Collection<AccountSerializable> accounts = configurationSerializable.getAccounts();
                 if(accounts != null){
-                    for(Account account : accounts){
+                    for(AccountSerializable account : accounts){
                         addAccount(account);
                     }
                 }
@@ -66,26 +67,35 @@ public class ServerConfigPersistenceManager {
         }
     }
     
-    private void addAccount(Account account){
+    private void addAccount(AccountSerializable account){
         this.configuredAccounts.put(account.getId(), account);
     }
     
-    public void createAccount(String username, String password){
-        Account account = new Account(generateId(), username, password);
-        addAccount(account);
-    }
-    
-    public void updateAccount(String id, String username, String password){
-        Account account = configuredAccounts.get(id);
+    public AccountSerializable createAccount(String username, String password){
+        AccountSerializable account = new AccountSerializable();
+        account.setId(generateId());
         account.setUsername(username);
         account.setPassword(password);
+        addAccount(account);
+        return account;
+    }
+    
+    public AccountSerializable updateAccount(String id, String username, String password){
+        AccountSerializable account = configuredAccounts.get(id);
+        account.setUsername(username);
+        account.setPassword(password);
+        return account;
     }
     
     public void deleteAccount(String id){
         configuredAccounts.remove(id);
     }
     
-    public Collection<Account> getAccounts(){
+    public AccountSerializable getAccount(String id){
+        return configuredAccounts.get(id);
+    }
+    
+    public Collection<AccountSerializable> getAccounts(){
         return Collections.unmodifiableCollection(configuredAccounts.values());
     }
     
@@ -101,9 +111,9 @@ public class ServerConfigPersistenceManager {
         FileOutputStream configFileStream = null;
         try {
             configFileStream = new FileOutputStream(configFile);
-            Accounts accountsToPersist = new Accounts();
-            accountsToPersist.setAccounts(configuredAccounts.values());
-            xStream.toXML(accountsToPersist, configFileStream);
+            ConfigurationSerializable configurationSerializable = new ConfigurationSerializable();
+            configurationSerializable.setAccounts(new ArrayList<AccountSerializable>(configuredAccounts.values()));
+            xStream.toXML(configurationSerializable, configFileStream);
         } catch (IOException e) {
             Loggers.SERVER.error("Failed to save Automate Website config file: " + configFile, e);
         } finally {

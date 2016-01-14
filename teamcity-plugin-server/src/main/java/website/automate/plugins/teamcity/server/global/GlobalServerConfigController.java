@@ -1,28 +1,34 @@
 package website.automate.plugins.teamcity.server.global;
 
+import java.util.List;
+
 import jetbrains.buildServer.controllers.ActionErrors;
 import jetbrains.buildServer.controllers.BaseFormXmlController;
 import jetbrains.buildServer.log.Loggers;
-import jetbrains.buildServer.serverSide.crypt.RSACipher;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 import org.springframework.web.servlet.ModelAndView;
+
+import website.automate.manager.api.client.ProjectRetrievalRemoteService;
+import website.automate.manager.api.client.model.Project;
+import website.automate.plugins.teamcity.server.global.GlobalConfigRequest.GlobalConfigRequestType;
+import website.automate.plugins.teamcity.server.mapper.AccountMapper;
+import website.automate.plugins.teamcity.server.mapper.ProjectMapper;
+import website.automate.plugins.teamcity.server.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.model.ProjectSerializable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class GlobalServerConfigController extends BaseFormXmlController {
-
-    private static final String 
-        PARAM_ID = "id",
-        PARAM_USERNAME = "username",
-        PARAM_ENCRYPTED_PASSWORD = "encryptedPassword",
-        PARAM_MODE_VALUE_DELETE = "delete",
-        PARAM_MODE = "editMode",
-        PARAM_MODE_VALUE_EDIT = "edit",
-        PARAM_MODE_VALUE_ADD = "add",
-        PARAM_MODE_VALUE_SYNC = "sync";
+    
+    private ProjectMapper projectMapper = ProjectMapper.getInstance();
+    
+    private AccountMapper accountMapper = AccountMapper.getInstance();
+    
+    private GlobalConfigRequestValidator requestValidator = GlobalConfigRequestValidator.getInstance();
+    
+    private ProjectRetrievalRemoteService projectRetrievalService = ProjectRetrievalRemoteService.getInstance();
     
     private ServerConfigPersistenceManager configPersistenceManager;
 
@@ -37,91 +43,65 @@ public class GlobalServerConfigController extends BaseFormXmlController {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response, Element xmlResponse) {
-        boolean isEditMode = isEditMode(request);
-        boolean isAddMode = isAddMode(request);
-        boolean isDeleteMode = isDeleteMode(request);
-
-        if (isEditMode || isAddMode) {
-            ActionErrors errors = validate(request);
-            if (errors.hasErrors()) {
-                errors.serialize(xmlResponse);
-                return;
-            }
-        }
-
-        if (isSyncRequest(request)) {
-            ActionErrors errors = sync(request);
-            if (errors.hasErrors()) {
-                errors.serialize(xmlResponse);
-            }
+        GlobalConfigRequest globalConfigRequest = new GlobalConfigRequest(request);
+        
+        ActionErrors errors = requestValidator.validate(globalConfigRequest);
+        if (errors.hasErrors()) {
+            errors.serialize(xmlResponse);
             return;
         }
         
-        String id = request.getParameter(PARAM_ID);
-        String username = request.getParameter(PARAM_USERNAME);
-        String password = getPassword(request);
-
-        if (isEditMode) {
-            configPersistenceManager.updateAccount(id, username, password);
-            getOrCreateMessages(request).addMessage("objectUpdated", "Automate Website account configuration was updated.");
-        } else if(isAddMode){
-            configPersistenceManager.createAccount(username, password);
-            getOrCreateMessages(request).addMessage("objectCreated", "Automate Website account configuration was created.");
-        } else if(isDeleteMode){
-            configPersistenceManager.deleteAccount(id);
-            getOrCreateMessages(request).addMessage("objectDeleted", "Automate Website server configuration was deleted.");
+        GlobalConfigRequestType type = globalConfigRequest.getType();
+        
+        try {
+            if (type == GlobalConfigRequestType.EDIT) {
+                String username = globalConfigRequest.getUsername();
+                String password = globalConfigRequest.getPassword();
+                String id = globalConfigRequest.getId();
+                
+                configPersistenceManager.updateAccount(id, username, password);
+                syncAccount(id);
+                getOrCreateMessages(request).addMessage("objectUpdated", "Automate Website account configuration was updated.");
+                
+            } else if(type == GlobalConfigRequestType.ADD){
+                String username = globalConfigRequest.getUsername();
+                String password = globalConfigRequest.getPassword();
+                
+                AccountSerializable accountSerializable = configPersistenceManager.createAccount(username, password);
+                syncAccount(accountSerializable.getId());
+                getOrCreateMessages(request).addMessage("objectCreated", "Automate Website account configuration was created.");
+                
+            } else if(type == GlobalConfigRequestType.DELETE){
+                
+                String id = globalConfigRequest.getId();
+                configPersistenceManager.deleteAccount(id);
+                getOrCreateMessages(request).addMessage("objectDeleted", "Automate Website account configuration was deleted.");
+                
+            } else if(type == GlobalConfigRequestType.SYNC){
+                
+                String id = globalConfigRequest.getId();
+                syncAccount(id);
+                getOrCreateMessages(request).addMessage("objectSynced", "Automate Website account was synced.");
+            }
+            
+            configPersistenceManager.saveConfiguration();
+        } catch (Exception e){
+            handleException(errors, e);
         }
+    }
+    
+    private void syncAccount(String id){
+        AccountSerializable accountSerializable = configPersistenceManager.getAccount(id);
+        
+        List<Project> projects = projectRetrievalService.getProjectsWithScenariosByPrincipal(accountMapper.map(accountSerializable));
+        List<ProjectSerializable> projectsSerializable = projectMapper.safeMapList(projects);
+        
+        accountSerializable.setProjects(projectsSerializable);
         
         configPersistenceManager.saveConfiguration();
     }
-
-    private ActionErrors validate(final HttpServletRequest request) {
-        String username = request.getParameter(PARAM_USERNAME);
-        String password = getPassword(request);
-
-        ActionErrors errors = new ActionErrors();
-        if (StringUtils.isBlank(username)) {
-            errors.addError("errorUsername", "Username can't be empty.");
-        }
-
-        if (StringUtils.isBlank(password)) {
-            errors.addError("errorPassword", "Password can't be empty.");
-        }
-        
-        return errors;
-    }
-
-    private ActionErrors sync(final HttpServletRequest request) {
-        ActionErrors errors = new ActionErrors();
-        
-        return errors;
-    }
-
-    private boolean isDeleteMode(final HttpServletRequest req) {
-        return PARAM_MODE_VALUE_DELETE.equals(req.getParameter(PARAM_MODE));
-    }
-
-    private boolean isEditMode(final HttpServletRequest req) {
-        return PARAM_MODE_VALUE_EDIT.equals(req.getParameter(PARAM_MODE));
-    }
-
-    private boolean isAddMode(final HttpServletRequest req) {
-        return PARAM_MODE_VALUE_ADD.equals(req.getParameter(PARAM_MODE));
-    }
-
-    private boolean isSyncRequest(final HttpServletRequest req) {
-        return PARAM_MODE_VALUE_SYNC.equals(req.getParameter(PARAM_MODE));
-    }
-
-    private String getPassword(final HttpServletRequest request){
-        String encryptedPassword = request.getParameter(PARAM_ENCRYPTED_PASSWORD);
-        if(encryptedPassword == null){
-            return encryptedPassword;
-        }
-        return RSACipher.decryptWebRequestData(encryptedPassword);
-    }
     
-    private void handleSyncException(ActionErrors errors, Exception e) {
+    private void handleException(ActionErrors errors, Exception e) {
         Throwable throwable = e.getCause();
         String errorMessage;
         if (throwable != null) {
@@ -129,7 +109,7 @@ public class GlobalServerConfigController extends BaseFormXmlController {
         } else {
             errorMessage = e.getClass().getCanonicalName() + ": " + e.getMessage();
         }
-        errors.addError("errorConnection", errorMessage);
-        Loggers.SERVER.error("Error while performing the Automate Website account sync.", e);
+        errors.addError("errorGlobal", errorMessage);
+        Loggers.SERVER.error("GlobalConfigRequest processing failed.", e);
     }
 }

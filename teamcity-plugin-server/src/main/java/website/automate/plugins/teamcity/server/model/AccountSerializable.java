@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias("account")
-public class Account extends Base {
+public class AccountSerializable extends AbstractSerializable {
 
     private static final long serialVersionUID = -1340244196417263060L;
 
@@ -14,17 +15,8 @@ public class Account extends Base {
     
     private String password;
 
-    private List<Project> projects = new ArrayList<Project>();
-    
-    public Account(){
-        super();
-    }
-    
-    public Account(String id, String username, String password) {
-        super(id);
-        this.username = username;
-        this.password = password;
-    }
+    @XStreamImplicit(itemFieldName="project")
+    private List<ProjectSerializable> projects = new ArrayList<ProjectSerializable>();
     
     public String getUsername() {
         return username;
@@ -42,15 +34,15 @@ public class Account extends Base {
         this.password = password;
     }
     
-    public List<Project> getProjects() {
+    public List<ProjectSerializable> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(List<ProjectSerializable> projects) {
         this.projects = projects;
     }
     
-    public void addProject(Project project){
+    public void addProject(ProjectSerializable project){
         this.projects.add(project);
     }
 

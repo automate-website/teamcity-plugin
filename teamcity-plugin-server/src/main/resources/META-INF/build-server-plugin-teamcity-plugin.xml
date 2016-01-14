@@ -5,8 +5,6 @@
        default-autowire="constructor">
   <bean id="automateWebsiteRunType" class="website.automate.plugins.teamcity.server.AutomateWebsiteRunType"/>
   
-  <bean id="automateWebsiteEditRunTypeControllerExtension" class="website.automate.plugins.teamcity.server.AutomateWebsiteEditRunTypeControllerExtension"/>
-  
   <bean id="serverListener" class="website.automate.plugins.teamcity.server.global.ServerListener"/>
   
   <bean id="serverConfigTab" class="website.automate.plugins.teamcity.server.global.GlobalServerConfigTab"/>

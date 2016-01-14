@@ -33,16 +33,21 @@
     </dependency>
 
     <dependency>
-        <groupId>com.thoughtworks.xstream</groupId>
-        <artifactId>xstream</artifactId>
-        <version>1.4.4</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.jetbrains.teamcity</groupId>
       <artifactId>tests-support</artifactId>
       <version>${teamcity-version}</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+        <groupId>website.automate</groupId>
+        <artifactId>manager-api-client</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <scope>test</scope>
+    </dependency>    
   </dependencies>
 </project>
