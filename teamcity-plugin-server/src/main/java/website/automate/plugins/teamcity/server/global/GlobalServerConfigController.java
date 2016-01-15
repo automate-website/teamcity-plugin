@@ -1,5 +1,8 @@
 package website.automate.plugins.teamcity.server.global;
 
+import static java.text.MessageFormat.format;
+
+import java.text.MessageFormat;
 import java.util.List;
 
 import jetbrains.buildServer.controllers.ActionErrors;
@@ -61,7 +64,7 @@ public class GlobalServerConfigController extends BaseFormXmlController {
                 
                 configPersistenceManager.updateAccount(id, username, password);
                 syncAccount(id);
-                getOrCreateMessages(request).addMessage("objectUpdated", "Automate Website account configuration was updated.");
+                getOrCreateMessages(request).addMessage("objectUpdated", format("Account entry {0} was updated.", username));
                 
             } else if(type == GlobalConfigRequestType.ADD){
                 String username = globalConfigRequest.getUsername();
@@ -69,19 +72,21 @@ public class GlobalServerConfigController extends BaseFormXmlController {
                 
                 AccountSerializable accountSerializable = configPersistenceManager.createAccount(username, password);
                 syncAccount(accountSerializable.getId());
-                getOrCreateMessages(request).addMessage("objectCreated", "Automate Website account configuration was created.");
+                getOrCreateMessages(request).addMessage("objectCreated", format("Account entry {0} was created.", username));
                 
             } else if(type == GlobalConfigRequestType.DELETE){
                 
                 String id = globalConfigRequest.getId();
+                AccountSerializable accountSerializable = configPersistenceManager.getAccount(id);
                 configPersistenceManager.deleteAccount(id);
-                getOrCreateMessages(request).addMessage("objectDeleted", "Automate Website account configuration was deleted.");
+                getOrCreateMessages(request).addMessage("objectDeleted", format("Account entry {0} was deleted", accountSerializable.getUsername()));
                 
             } else if(type == GlobalConfigRequestType.SYNC){
                 
                 String id = globalConfigRequest.getId();
+                AccountSerializable accountSerializable = configPersistenceManager.getAccount(id);
                 syncAccount(id);
-                getOrCreateMessages(request).addMessage("objectSynced", "Automate Website account was synced.");
+                getOrCreateMessages(request).addMessage("objectSynced", format("Account entry {0} was synced.", accountSerializable.getUsername()));
             }
             
             configPersistenceManager.saveConfiguration();
@@ -109,7 +114,7 @@ public class GlobalServerConfigController extends BaseFormXmlController {
         } else {
             errorMessage = e.getClass().getCanonicalName() + ": " + e.getMessage();
         }
-        errors.addError("errorGlobal", errorMessage);
+        errors.addError("objectError", errorMessage);
         Loggers.SERVER.error("GlobalConfigRequest processing failed.", e);
     }
 }

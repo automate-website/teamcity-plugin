@@ -10,10 +10,6 @@
     }
 </style>
 
-<bs:linkCSS>
-    /css/admin/vcsSettings.css
-</bs:linkCSS>
-
 <c:url var="controllerUrl" value="/admin/automate-website/globalServerConfigTab.html"/>
 
 <script type="text/javascript">
@@ -85,7 +81,7 @@
                     // will serialize form params, and submit form to form.action
                     // if XML with errors is returned, corresponding error listener methods will be called
                     BS.PasswordFormSaver.save(this, this.formElement().action, OO.extend(BS.ErrorsAwareListener, {
-                    	errorUsername : function(elem) {
+                        errorUsername : function(elem) {
                             $('errorUsername').innerHTML = elem.firstChild.nodeValue;
                         },
                         errorPassword : function(elem) {
@@ -130,6 +126,7 @@
             <bs:messages key="objectUpdated"/>
             <bs:messages key="objectCreated"/>
             <bs:messages key="objectDeleted"/>
+            <bs:messages key="objectSynced"/>
         </table>
 
         <l:tableWithHighlighting className="settings" highlightImmediately="true" style="width: 80%;">
