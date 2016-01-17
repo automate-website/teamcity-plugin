@@ -1,70 +1,18 @@
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
+<jsp:useBean id="serverConfigModel" class="website.automate.plugins.teamcity.server.global.ServerConfigModel"/>
+
 <script type="text/javascript">
 (function($){
     var aw = {};
-    
-    aw.selectedAccount = $.trim('2');
-    aw.selectedProject = $.trim('21');
-    aw.selectedScenarios = $.trim('211,212').split(',');
-    
-    aw.accounts = [
-       { 
-           id: '1', 
-           username : 'Account 1', 
-           projects : [
-               { 
-                   id: '11', 
-                   title: 'Project 11',
-                   scenarios: [
-                       {
-                           id: '111',
-                           title: 'Scenario 111'
-                       },
-                       {
-                           id: '112',
-                           title: 'Scenario 112'
-                       }
-                   ]
-               },
-               { 
-                   id: '12', 
-                   title: 'Project 12',
-                   scenarios: [
-                       {
-                           id: '121',
-                           title: 'Scenario 121'
-                       },
-                       {
-                           id: '122',
-                           title: 'Scenario 122'
-                       }
-                   ]
-               }
-           ]
-       },
-       { 
-           id: '2', 
-           username : 'Account 2', 
-           projects : [
-               { 
-                   id: '21', 
-                   title: 'Project 21',
-                   scenarios: [
-                       {
-                           id: '211',
-                           title: 'Scenario 211'
-                       },
-                       {
-                           id: '212',
-                           title: 'Scenario 212'
-                       }
-                   ]
-               }
-           ]
-       }
-    ];
+
+    aw.selectedAccount = $.trim("${propertiesBean.properties['website.automate.teamcity.account']}");
+    aw.selectedProject = $.trim("${propertiesBean.properties['website.automate.teamcity.project']}");
+    aw.selectedScenarios = $.trim("${propertiesBean.properties['website.automate.teamcity.selectedScenarios']}").split(',');
+
+    aw.accounts = ${serverConfigModel.accountsAsJson};
     
     aw.template = _.template('<div class="parameter">{{ paramName }}: <strong>{{ paramValue }}</strong></div>', { interpolate: /\{\{(.+?)\}\}/g });
     

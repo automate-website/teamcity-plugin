@@ -4,72 +4,20 @@
 <%@ taglib prefix="forms" tagdir="/WEB-INF/tags/forms" %>
 <%@ taglib prefix="bs" tagdir="/WEB-INF/tags" %>
 
+<jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
+<jsp:useBean id="serverConfigModel" class="website.automate.plugins.teamcity.server.global.ServerConfigModel"/>
+
 <script type="text/javascript">
     (function($){
+
         var aw = {};
 
-        aw.selectedAccount = $.trim('2');
-        aw.selectedProject = $.trim('21');
-        aw.selectedScenarios = $.trim('211,212').split(',');
+        aw.selectedAccount = $.trim("${propertiesBean.properties['website.automate.teamcity.account']}");
+        aw.selectedProject = $.trim("${propertiesBean.properties['website.automate.teamcity.project']}");
+        aw.selectedScenarios = $.trim("${propertiesBean.properties['website.automate.teamcity.selectedScenarios']}").split(',');
 
-        aw.accounts = [
-            { 
-                id: '1', 
-                username : 'Account 1', 
-                projects : [
-                    { 
-                        id: '11', 
-                        title: 'Project 11',
-                        scenarios: [
-                            {
-                                id: '111',
-                                title: 'Scenario 111'
-                            },
-                            {
-                                id: '112',
-                                title: 'Scenario 112'
-                            }
-                        ]
-                    },
-                    { 
-                        id: '12', 
-                        title: 'Project 12',
-                        scenarios: [
-                            {
-                                id: '121',
-                                title: 'Scenario 121'
-                            },
-                            {
-                                id: '122',
-                                title: 'Scenario 122'
-                            }
-                        ]
-                    }
-                ]
-            },
-            { 
-                id: '2', 
-                username : 'Account 2', 
-                projects : [
-                    { 
-                        id: '21', 
-                        title: 'Project 21',
-                        scenarios: [
-                            {
-                                id: '211',
-                                title: 'Scenario 211'
-                            },
-                            {
-                                id: '212',
-                                title: 'Scenario 212'
-                            }
-                        ]
-                    }
-                ]
-            }
-
-        ];
-
+        aw.accounts = ${serverConfigModel.accountsAsJson};
+       
         aw.findProjectsByAccountId = function(accountId){
             var account = _.find(aw.accounts, function(account){
                 return account.id === accountId;
@@ -102,10 +50,10 @@
         };
 
         $(function() {
-            aw.$selectAccount = $('select#account');
-            aw.$selectProject = $('select#project');
-            aw.$selectScenario = $('select#scenario');
-            aw.$inputSelectedScenarios = $('input#selectedScenarios');
+            aw.$selectAccount = $('select#website\\.automate\\.teamcity\\.account');
+            aw.$selectProject = $('select#website\\.automate\\.teamcity\\.project');
+            aw.$selectScenario = $('select#website\\.automate\\.teamcity\\.scenario');
+            aw.$inputSelectedScenarios = $('input#website\\.automate\\.teamcity\\.selectedScenarios');
 
             aw.$selectScenario.change(function(){
                 var selectedScenarios = [];
@@ -151,21 +99,13 @@
     })(jQuery);    
 </script>
 
-<l:settingsGroup title="Scenario Selection">
+<l:settingsGroup title="Scenario Execution Selection">
     <tr>
         <th>
             <label for="website.automate.teamcity.account">Account</label>
         </th>
         <td>
-            <props:selectProperty name="account">
-                <div><c:out value="${selectedValue}"/></div>
-                <props:option value="1"><c:out value="account 111"/></props:option>
-                <props:option value="2"><c:out value="project 2"/></props:option>
-                <props:option value="3"><c:out value="project 3"/></props:option>
-                <!--<c:forEach var="project" items="${awDataProvider.projects}">
-                    <props:option value="${project.id}"><c:out value="${project.title}"/></props:option>
-                </c:forEach>-->
-            </props:selectProperty>
+            <props:selectProperty name="website.automate.teamcity.account" />
         </td>
     </tr>
     <tr>
@@ -173,15 +113,7 @@
             <label for="website.automate.teamcity.project">Project</label>
         </th>
         <td>
-            <props:selectProperty name="project">
-                <div><c:out value="${selectedValue}"/></div>
-                <props:option value="1"><c:out value="project 111"/></props:option>
-                <props:option value="2"><c:out value="project 2"/></props:option>
-                <props:option value="3"><c:out value="project 3"/></props:option>
-                <!--<c:forEach var="project" items="${awDataProvider.projects}">
-                    <props:option value="${project.id}"><c:out value="${project.title}"/></props:option>
-                </c:forEach>-->
-            </props:selectProperty>
+            <props:selectProperty name="website.automate.teamcity.project" />
         </td>
     </tr>
     <tr>
@@ -189,16 +121,8 @@
             <label for="website.automate.teamcity.scenario">Scenarios</label>
         </th>
         <td>
-            <props:selectProperty name="scenario" multiple="true">
-                <div><c:out value="${selectedValue}"/></div>
-                <props:option value="1"><c:out value="scenario 1"/></props:option>
-                <props:option value="2"><c:out value="scenario 2"/></props:option>
-                <props:option value="3"><c:out value="scenario 3"/></props:option>
-                <!--<c:forEach var="scenario" items="${awDataProvider.scenarios}">
-                    <props:option value="${scenario.id}"><c:out value="${scenario.title}"/></props:option>
-                </c:forEach>-->
-            </props:selectProperty>
-            <props:hiddenProperty name="selectedScenarios" value=""/>
+            <props:selectProperty name="website.automate.teamcity.scenario" multiple="true" />
+            <props:hiddenProperty name="website.automate.teamcity.selectedScenarios" value=""/>
         </td>
     </tr>
 </l:settingsGroup>

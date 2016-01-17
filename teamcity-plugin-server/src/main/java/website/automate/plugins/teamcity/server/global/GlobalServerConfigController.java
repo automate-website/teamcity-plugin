@@ -2,7 +2,6 @@ package website.automate.plugins.teamcity.server.global;
 
 import static java.text.MessageFormat.format;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import jetbrains.buildServer.controllers.ActionErrors;

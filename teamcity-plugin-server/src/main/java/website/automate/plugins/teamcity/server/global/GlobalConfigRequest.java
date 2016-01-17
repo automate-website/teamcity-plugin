@@ -2,8 +2,6 @@ package website.automate.plugins.teamcity.server.global;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jdom.Element;
-
 import jetbrains.buildServer.serverSide.crypt.RSACipher;
 
 public class GlobalConfigRequest { 

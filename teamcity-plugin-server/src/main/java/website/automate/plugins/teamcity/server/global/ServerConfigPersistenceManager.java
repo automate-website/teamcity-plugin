@@ -27,6 +27,8 @@ import website.automate.plugins.teamcity.server.model.ScenarioSerializable;
 
 public class ServerConfigPersistenceManager {
 
+    private static ServerConfigPersistenceManager INSTANCE;
+    
     static final String CONFIG_FILE_NAME = "automate-website-config.xml";
     
     private File configFile;
@@ -45,6 +47,12 @@ public class ServerConfigPersistenceManager {
         
         configFile = new File(serverPaths.getConfigDir(), CONFIG_FILE_NAME);
         loadConfiguration();
+        
+        INSTANCE = this;
+    }
+    
+    public static ServerConfigPersistenceManager getInstance(){
+        return INSTANCE;
     }
     
     void loadConfiguration(){
