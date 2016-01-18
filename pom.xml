@@ -12,7 +12,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     
-    <name>TeamCity Automate Website Plugin</name>
     <description>Integrates TeamCity CI with Automate Website Test Execution Environment</description>
     
     <licenses>
