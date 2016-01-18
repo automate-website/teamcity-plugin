@@ -4,7 +4,7 @@
   <parent>
     <artifactId>teamcity-automate-website-plugin</artifactId>
     <groupId>website.automate.teamcity</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
   </parent>
   <artifactId>teamcity-automate-website-build</artifactId>
   <packaging>pom</packaging>
