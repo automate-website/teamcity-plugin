@@ -30,5 +30,11 @@
       <version>${teamcity-version}</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+        <groupId>website.automate</groupId>
+        <artifactId>manager-api-client</artifactId>
+    </dependency>
+    
   </dependencies>
 </project>

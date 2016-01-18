@@ -8,4 +8,6 @@
   <bean id="serverListener" class="website.automate.plugins.teamcity.server.global.ServerListener"/>
   
   <bean id="serverConfigTab" class="website.automate.plugins.teamcity.server.global.GlobalServerConfigTab"/>
+  
+  <bean id="propertiesProcessor" depends-on="serverListener" class="website.automate.plugins.teamcity.server.AutomateWebsitePropertiesProcessor"/>
 </beans>

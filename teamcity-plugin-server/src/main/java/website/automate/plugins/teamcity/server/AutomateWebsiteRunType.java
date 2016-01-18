@@ -15,9 +15,13 @@ public class AutomateWebsiteRunType extends RunType {
 
     private final PluginDescriptor descriptor;
     
+    private final AutomateWebsitePropertiesProcessor propetriesProcessor;
+    
     public AutomateWebsiteRunType(@NotNull final RunTypeRegistry registry,
-            @NotNull final PluginDescriptor descriptor) {
+            @NotNull final PluginDescriptor descriptor, 
+            @NotNull AutomateWebsitePropertiesProcessor propetriesProcessor) {
         this.descriptor = descriptor;
+        this.propetriesProcessor = propetriesProcessor;
         registry.registerRunType(this);
     }
     
@@ -53,6 +57,6 @@ public class AutomateWebsiteRunType extends RunType {
     
     @Override
     public PropertiesProcessor getRunnerPropertiesProcessor() {
-        return new AutomateWebsitePropertiesProcessor();
+        return propetriesProcessor;
     }
 }
