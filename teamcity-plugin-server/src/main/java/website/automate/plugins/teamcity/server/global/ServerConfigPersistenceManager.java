@@ -20,10 +20,10 @@ import org.jetbrains.annotations.NotNull;
 
 import com.thoughtworks.xstream.XStream;
 
-import website.automate.plugins.teamcity.server.model.AccountSerializable;
-import website.automate.plugins.teamcity.server.model.ConfigurationSerializable;
-import website.automate.plugins.teamcity.server.model.ProjectSerializable;
-import website.automate.plugins.teamcity.server.model.ScenarioSerializable;
+import website.automate.plugins.teamcity.server.io.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.io.model.ConfigurationSerializable;
+import website.automate.plugins.teamcity.server.io.model.ProjectSerializable;
+import website.automate.plugins.teamcity.server.io.model.ScenarioSerializable;
 
 public class ServerConfigPersistenceManager {
 

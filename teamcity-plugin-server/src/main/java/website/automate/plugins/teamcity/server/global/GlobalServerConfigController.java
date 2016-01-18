@@ -14,10 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import website.automate.manager.api.client.ProjectRetrievalRemoteService;
 import website.automate.manager.api.client.model.Project;
 import website.automate.plugins.teamcity.server.global.GlobalConfigRequest.GlobalConfigRequestType;
-import website.automate.plugins.teamcity.server.mapper.AccountMapper;
-import website.automate.plugins.teamcity.server.mapper.ProjectMapper;
-import website.automate.plugins.teamcity.server.model.AccountSerializable;
-import website.automate.plugins.teamcity.server.model.ProjectSerializable;
+import website.automate.plugins.teamcity.server.io.mapper.AccountMapper;
+import website.automate.plugins.teamcity.server.io.mapper.ProjectMapper;
+import website.automate.plugins.teamcity.server.io.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.io.model.ProjectSerializable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,7 +98,7 @@ public class GlobalServerConfigController extends BaseFormXmlController {
         AccountSerializable accountSerializable = configPersistenceManager.getAccount(id);
         
         List<Project> projects = projectRetrievalService.getProjectsWithScenariosByPrincipal(accountMapper.map(accountSerializable));
-        List<ProjectSerializable> projectsSerializable = projectMapper.safeMapList(projects);
+        List<ProjectSerializable> projectsSerializable = projectMapper.safeMapCollection(projects);
         
         accountSerializable.setProjects(projectsSerializable);
         

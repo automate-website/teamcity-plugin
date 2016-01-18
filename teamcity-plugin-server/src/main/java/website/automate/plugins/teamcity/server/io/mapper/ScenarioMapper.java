@@ -1,7 +1,8 @@
-package website.automate.plugins.teamcity.server.mapper;
+package website.automate.plugins.teamcity.server.io.mapper;
 
 import website.automate.manager.api.client.model.Scenario;
-import website.automate.plugins.teamcity.server.model.ScenarioSerializable;
+import website.automate.plugins.teamcity.server.io.model.ScenarioSerializable;
+import website.automate.plugins.teamcity.server.support.Mapper;
 
 public class ScenarioMapper extends Mapper<Scenario, ScenarioSerializable> {
 

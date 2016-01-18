@@ -1,11 +1,7 @@
-package website.automate.plugins.teamcity.server.model;
+package website.automate.plugins.teamcity.server.web.model;
 
-import java.io.Serializable;
+public abstract class AbstractResponse {
 
-public abstract class AbstractSerializable implements Serializable {
-
-    private static final long serialVersionUID = -1407298374327171471L;
-    
     protected String id;
     
     public String getId() {
@@ -32,7 +28,7 @@ public abstract class AbstractSerializable implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AbstractSerializable other = (AbstractSerializable) obj;
+        AbstractResponse other = (AbstractResponse) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

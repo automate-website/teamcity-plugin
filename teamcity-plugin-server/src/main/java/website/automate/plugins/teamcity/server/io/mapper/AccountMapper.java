@@ -1,7 +1,8 @@
-package website.automate.plugins.teamcity.server.mapper;
+package website.automate.plugins.teamcity.server.io.mapper;
 
 import website.automate.manager.api.client.model.Authentication;
-import website.automate.plugins.teamcity.server.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.io.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.support.Mapper;
 
 public class AccountMapper extends Mapper<AccountSerializable, Authentication> {
 

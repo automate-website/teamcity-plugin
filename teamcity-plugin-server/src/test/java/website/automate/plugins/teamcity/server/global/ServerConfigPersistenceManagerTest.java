@@ -16,9 +16,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import website.automate.plugins.teamcity.server.model.AccountSerializable;
-import website.automate.plugins.teamcity.server.model.ProjectSerializable;
-import website.automate.plugins.teamcity.server.model.ScenarioSerializable;
+import website.automate.plugins.teamcity.server.io.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.io.model.ProjectSerializable;
+import website.automate.plugins.teamcity.server.io.model.ScenarioSerializable;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServerConfigPersistenceManagerTest {

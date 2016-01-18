@@ -1,4 +1,4 @@
-package website.automate.plugins.teamcity.server.model;
+package website.automate.plugins.teamcity.server.io.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

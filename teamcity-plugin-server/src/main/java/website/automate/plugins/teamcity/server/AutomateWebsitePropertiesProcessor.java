@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import website.automate.plugins.teamcity.common.Constants;
 import website.automate.plugins.teamcity.server.global.ServerConfigPersistenceManager;
 import website.automate.plugins.teamcity.server.global.ServerListener;
-import website.automate.plugins.teamcity.server.model.AccountSerializable;
+import website.automate.plugins.teamcity.server.io.model.AccountSerializable;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 
