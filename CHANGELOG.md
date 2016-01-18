@@ -4,25 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.1.1]
+## [0.1.0]
 ### Changed
+- aligned package, artifact and group id's/names
+- updated [manager-api-client] version to 0.1.1
 - hard wired utilized maven plugin versions
 
-## [0.1.0]
 ### Added
-- sources generation
+- added initial plugin implementation
 
-## [0.0.3]
-### Changed 
-- adjusted package names
-- shortened artifact name
+[Unreleased]: https://github.com/automate-website/manager-api-client/compare/0.1.0...HEAD
+[0.1.1]: https://github.com/automate-website/manager-api-client/compare/0.1.0...0.0.0
 
-## [0.0.2]
-### Added
-- created initial implementation of the API
-
-[Unreleased]: https://github.com/automate-website/manager-api-client/compare/0.1.1...HEAD
-[0.1.1]: https://github.com/automate-website/manager-api-client/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/automate-website/manager-api-client/compare/0.0.3...0.1.0
-[0.0.3]: https://github.com/automate-website/manager-api-client/compare/0.0.2...0.0.3
-[0.0.2]: https://github.com/automate-website/manager-api-client/compare/0.0.0...0.0.2
+[manager-api-client]: https://github.com/automate-website/manager-api-client
