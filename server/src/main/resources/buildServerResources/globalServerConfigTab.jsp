@@ -1,6 +1,6 @@
 <%@include file="/include.jsp" %>
 
-<jsp:useBean id="serverConfigPersistenceManager" type="website.automate.plugins.teamcity.server.global.ServerConfigPersistenceManager"
+<jsp:useBean id="serverConfigPersistenceManager" type="website.automate.teamcity.server.global.ServerConfigPersistenceManager"
              scope="request"/>
 
 <style type="text/css">

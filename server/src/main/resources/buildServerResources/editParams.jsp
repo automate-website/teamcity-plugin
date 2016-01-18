@@ -5,7 +5,7 @@
 <%@ taglib prefix="bs" tagdir="/WEB-INF/tags" %>
 
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
-<jsp:useBean id="serverConfigModel" class="website.automate.plugins.teamcity.server.global.ServerConfigModel"/>
+<jsp:useBean id="serverConfigModel" class="website.automate.teamcity.server.global.ServerConfigModel"/>
 
 <script type="text/javascript">
     (function($){

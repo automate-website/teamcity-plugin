@@ -3,11 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
        default-autowire="constructor">
-  <bean id="automateWebsiteRunType" class="website.automate.plugins.teamcity.server.AutomateWebsiteRunType"/>
+  <bean id="automateWebsiteRunType" class="website.automate.teamcity.server.AutomateWebsiteRunType"/>
   
-  <bean id="serverListener" class="website.automate.plugins.teamcity.server.global.ServerListener"/>
+  <bean id="serverListener" class="website.automate.teamcity.server.global.ServerListener"/>
   
-  <bean id="serverConfigTab" class="website.automate.plugins.teamcity.server.global.GlobalServerConfigTab"/>
+  <bean id="serverConfigTab" class="website.automate.teamcity.server.global.GlobalServerConfigTab"/>
   
-  <bean id="propertiesProcessor" depends-on="serverListener" class="website.automate.plugins.teamcity.server.AutomateWebsitePropertiesProcessor"/>
+  <bean id="propertiesProcessor" depends-on="serverListener" class="website.automate.teamcity.server.AutomateWebsitePropertiesProcessor"/>
 </beans>

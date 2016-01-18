@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
-<jsp:useBean id="serverConfigModel" class="website.automate.plugins.teamcity.server.global.ServerConfigModel"/>
+<jsp:useBean id="serverConfigModel" class="website.automate.teamcity.server.global.ServerConfigModel"/>
 
 <script type="text/javascript">
 (function($){

@@ -1,2 +1,8 @@
-# teamcity-plugin
-TeamCity plugin for remote scenario execution on https://automate.website.
+# Automate Website TeamCity Plugin
+Integrates TeamCity CI with Automate Website Test Execution Environment.
+Account on [automate.website] is required for meaningful utilization.
+
+Refer to the [changelog] for recent notable changes and modifications.
+
+[automate.website]: https://automate.website
+[changelog]: CHANGELOG.md
