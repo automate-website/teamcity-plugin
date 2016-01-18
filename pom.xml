@@ -89,6 +89,26 @@
                 <version>1.9.5</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+              <groupId>website.automate.teamcity</groupId>
+              <artifactId>teamcity-automate-website-plugin-common</artifactId>
+              <version>${project.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>website.automate.teamcity</groupId>
+              <artifactId>teamcity-automate-website-plugin-agent</artifactId>
+              <version>${project.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>website.automate.teamcity</groupId>
+              <artifactId>teamcity-automate-website-plugin-server</artifactId>
+              <version>${project.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>website.automate.teamcity</groupId>
+              <artifactId>teamcity-automate-website-plugin-build</artifactId>
+              <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
