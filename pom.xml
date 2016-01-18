@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>website.automate.teamcity</groupId>
     <artifactId>teamcity-automate-website-plugin</artifactId>
-    <version>0.1.0</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
         <teamcity-version>9.0.3</teamcity-version>
@@ -143,7 +144,7 @@
         <url>https://github.com/automate-website/teamcity-plugin</url>
         <connection>scm:git:git@github.com:automate-website/teamcity-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:automate-website/teamcity-plugin.git</developerConnection>
-        <tag>0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <distributionManagement>
