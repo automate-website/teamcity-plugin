@@ -10,4 +10,4 @@ Refer to the [wiki pages] for documentation and user information.
 
 [automate.website]: https://automate.website
 [changelog]: CHANGELOG.md
-[wiki pages]: https://github.com/automate-website/teamcity-plugin/wiki/Documentation
+[wiki pages]: https://github.com/automate-website/teamcity-plugin/wiki/Home
