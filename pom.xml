@@ -9,18 +9,17 @@
     <properties>
         <teamcity-version>9.0.3</teamcity-version>
     </properties>
-    <repositories>
-        <repository>
-            <id>JetBrains</id>
-            <url>http://repository.jetbrains.com/all</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>JetBrains</id>
-            <url>http://repository.jetbrains.com/all</url>
-        </pluginRepository>
-    </pluginRepositories>
+    
+    <name>TeamCity Automate Website Plugin</name>
+    <description>Integrates TeamCity CI with Automate Website Test Execution Environment</description>
+    
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+    
     <build>
         <pluginManagement>
             <plugins>
@@ -39,6 +38,40 @@
                     <configuration>
                         <!-- <teamcityDir>/path/to/tc/distro</teamcityDir> -->
                     </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*IT.class</include>
+                        </includes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                    <executions>
+                      <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                          <goal>test</goal>
+                        </goals>
+                      </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -64,4 +97,37 @@
         <module>common</module>
         <module>build</module>
     </modules>
+    
+     <scm>
+        <url>https://github.com/automate-website/teamcity-plugin</url>
+        <connection>scm:git:git@github.com:automate-website/teamcity-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:automate-website/teamcity-plugin.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <distributionManagement>
+        <repository>
+            <id>repository.automate.website-releases</id>
+            <name>repository.automate.website-releases</name>
+            <url>http://repository.automate.website/artifactory/automate.website-release</url>
+        </repository>
+        <snapshotRepository>
+            <id>repository.automate.website-snapshots</id>
+            <url>http://repository.automate.website/artifactory/automate.website-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>repository.automate.website</id>
+            <name>repository.automate.website</name>
+            <url>http://repository.automate.website/artifactory/automate.website</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.automate.website</id>
+            <name>repository.automate.website</name>
+            <url>http://repository.automate.website/artifactory/automate.website</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
