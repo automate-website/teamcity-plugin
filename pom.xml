@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>website.automate</groupId>
-    <artifactId>teamcity-plugin</artifactId>
+    <groupId>website.automate.teamcity</groupId>
+    <artifactId>teamcity-automate-website-plugin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
@@ -59,9 +59,9 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>teamcity-plugin-server</module>
-        <module>teamcity-plugin-agent</module>
-        <module>teamcity-plugin-common</module>
+        <module>server</module>
+        <module>agent</module>
+        <module>common</module>
         <module>build</module>
     </modules>
 </project>

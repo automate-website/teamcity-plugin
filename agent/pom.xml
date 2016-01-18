@@ -2,33 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>teamcity-plugin</artifactId>
-    <groupId>website.automate</groupId>
+    <artifactId>teamcity-automate-website-plugin</artifactId>
+    <groupId>website.automate.teamcity</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>teamcity-plugin-server</artifactId>
+  <artifactId>teamcity-automate-website-plugin-agent</artifactId>
   <packaging>jar</packaging>
   <dependencies>
-
+    
     <dependency>
-      <groupId>website.automate</groupId>
-      <artifactId>teamcity-plugin-common</artifactId>
+      <groupId>website.automate.teamcity</groupId>
+      <artifactId>teamcity-automate-website-plugin-common</artifactId>
       <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.jetbrains.teamcity</groupId>
-      <artifactId>server-api</artifactId>
+      <artifactId>agent-api</artifactId>
       <version>${teamcity-version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jetbrains.teamcity</groupId>
-      <artifactId>server-web-api</artifactId>
-      <version>${teamcity-version}</version>
-      <type>war</type>
       <scope>provided</scope>
     </dependency>
 
@@ -43,11 +35,6 @@
         <groupId>website.automate</groupId>
         <artifactId>manager-api-client</artifactId>
     </dependency>
-
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-all</artifactId>
-        <scope>test</scope>
-    </dependency>    
+    
   </dependencies>
 </project>
