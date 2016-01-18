@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>website.automate.teamcity</groupId>
     <artifactId>teamcity-automate-website-plugin</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
         <teamcity-version>9.0.3</teamcity-version>
@@ -143,7 +143,7 @@
         <url>https://github.com/automate-website/teamcity-plugin</url>
         <connection>scm:git:git@github.com:automate-website/teamcity-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:automate-website/teamcity-plugin.git</developerConnection>
-        <tag>0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <distributionManagement>
