@@ -36,4 +36,27 @@
     </dependency>
     
   </dependencies>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
+    </plugins>
+  </build>
 </project>
