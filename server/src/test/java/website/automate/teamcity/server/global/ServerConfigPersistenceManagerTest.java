@@ -68,7 +68,7 @@ public class ServerConfigPersistenceManagerTest {
     
     private ScenarioSerializable createScenario(){
         ScenarioSerializable scenario = new ScenarioSerializable();
-        scenario.setTitle(SCENARIO_TITLE);
+        scenario.setName(SCENARIO_TITLE);
         scenario.setId(SCENARIO_ID);
         return scenario;
     }

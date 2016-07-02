@@ -16,7 +16,7 @@ public class ScenarioResponseMapper extends Mapper<ScenarioSerializable, Scenari
     public ScenarioResponse map(ScenarioSerializable source) {
         ScenarioResponse target = new ScenarioResponse();
         target.setId(source.getId());
-        target.setTitle(source.getTitle());
+        target.setTitle(source.getName());
         return target;
     }
 

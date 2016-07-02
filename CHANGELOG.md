@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- introduced scenario execution parameter delegation support
+- added configuration parameter support
+
+### Changed
+- updated to manager-api-client 0.3.1
+
 ## [0.2.0]
 - switched to oss.sonatype.org distribution management
 - switched to travis-ci build

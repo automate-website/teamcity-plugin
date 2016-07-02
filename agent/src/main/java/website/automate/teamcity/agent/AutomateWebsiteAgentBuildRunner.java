@@ -14,7 +14,8 @@ public class AutomateWebsiteAgentBuildRunner implements AgentBuildRunner {
     @Override
     public BuildProcess createBuildProcess(AgentRunningBuild agentRunningBuild,
             BuildRunnerContext buildRunnerContext) throws RunBuildException {
-        return new AutomateWebsiteBuildProcess(BuildProcessConfig.of(buildRunnerContext.getRunnerParameters()),
+        return new AutomateWebsiteBuildProcess(BuildProcessConfig.of(buildRunnerContext.getRunnerParameters(),
+                buildRunnerContext.getConfigParameters()),
                 agentRunningBuild.getBuildLogger());
     }
 

@@ -4,12 +4,13 @@ import static java.lang.String.format;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import website.automate.manager.api.client.JobManagementRemoteService;
 import website.automate.manager.api.client.model.Authentication;
 import website.automate.manager.api.client.model.Job;
-import website.automate.manager.api.client.model.TestResults;
 import website.automate.manager.api.client.model.Job.JobProfile;
 import website.automate.manager.api.client.model.Job.JobStatus;
 import website.automate.manager.api.client.model.Job.TakeScreenshots;
@@ -23,16 +24,8 @@ import jetbrains.buildServer.agent.BuildProgressLogger;
 
 public class AutomateWebsiteBuildProcess implements BuildProcess {
 
-    private static final long DEFAULT_JOB_STATUS_CHECK_INTERVAL_IN_SEC = 30;
-
-    private static final long DEFAULT_EXECUTION_TIMEOUT_IN_SEC = 300;
-
     private JobManagementRemoteService jobManagementRemoteService = JobManagementRemoteService
             .getInstance();
-
-    private long jobStatusCheckIntervalInSec = DEFAULT_JOB_STATUS_CHECK_INTERVAL_IN_SEC;
-
-    private long executionTimeoutInSec = DEFAULT_EXECUTION_TIMEOUT_IN_SEC;
 
     private BuildProcessConfig config;
 
@@ -58,18 +51,18 @@ public class AutomateWebsiteBuildProcess implements BuildProcess {
         logger.message(format("Creating jobs for selected scenarios %s ...",
                 scenarioIds));
         List<Job> createdJobs = jobManagementRemoteService.createJobs(
-                createJobs(scenarioIds), principal);
+                createJobs(config.getContext(), scenarioIds), principal);
         long jobsCreatedMillis = System.currentTimeMillis();
 
         Collection<String> createdJobIds = asJobIds(createdJobs);
         List<Job> updatedJobs;
 
         do {
-            if (System.currentTimeMillis() - jobsCreatedMillis >= executionTimeoutInSec * 1000) {
+            if (System.currentTimeMillis() - jobsCreatedMillis >= config.getExecutionTimeoutSec() * 1000) {
                 break;
             }
             try {
-                Thread.sleep(jobStatusCheckIntervalInSec * 1000);
+                Thread.sleep(config.getJobStatusCheckIntervalSec() * 1000);
             } catch (InterruptedException e) {
                 throw new ExecutionInterruptionException(
                         "Unexpected plugin execution thread interrupt occured.",
@@ -94,25 +87,19 @@ public class AutomateWebsiteBuildProcess implements BuildProcess {
 
         for (Job job : jobs) {
             String jobTitle = job.getTitle();
-            TestResults testResults = job.getTestResults();
             String jobUrl = getJobUrl(job.getId());
-            if (testResults != null) {
-                if (!testResults.isFailed()) {
-                    logger.message(format("%s job execution succeeded (%s).",
-                            jobTitle, jobUrl));
-                } else {
-                    if (result != BuildFinishedStatus.FINISHED_FAILED) {
-                        result = BuildFinishedStatus.FINISHED_WITH_PROBLEMS;
-                    }
-
-                    logger.warning(format("%s job execution failed (%s).",
-                            jobTitle, jobUrl));
+            if (job.getStatus() == JobStatus.SUCCESS) {
+                logger.message(format("%s job execution succeeded (%s).", jobTitle, jobUrl));
+            } else if (job.getStatus() == JobStatus.FAILURE) {
+                if (result != BuildFinishedStatus.FINISHED_FAILED) {
+                    result = BuildFinishedStatus.FINISHED_WITH_PROBLEMS;
                 }
+                logger.warning(format("%s job execution failed (%s).", jobTitle, jobUrl));
             } else {
                 result = BuildFinishedStatus.FINISHED_FAILED;
-                logger.warning(format(
-                        "Unexpected error occured during execution of '%s' or execution took to long (%s).",
-                        jobTitle, jobUrl));
+                logger.error(
+                        format("Unexpected error occured during execution of '%s' or execution took to long (%s).",
+                                jobTitle, jobUrl));
             }
         }
         return result;
@@ -141,18 +128,17 @@ public class AutomateWebsiteBuildProcess implements BuildProcess {
         return jobIds;
     }
 
-    private Collection<Job> createJobs(Collection<String> scenarioIds) {
+    private Collection<Job> createJobs(Map<String, String> context, Collection<String> scenarioIds) {
         List<Job> jobs = new ArrayList<Job>();
-        for (String scenarioId : scenarioIds) {
-            jobs.add(createJob(scenarioId));
-        }
+        jobs.add(createJob(context, scenarioIds));
         return jobs;
     }
 
-    private Job createJob(String scenarioId) {
+    private Job createJob(Map<String, String> context, Collection<String> scenarioIds) {
         Job job = new Job();
-        job.setScenarioId(scenarioId);
+        job.setScenarioIds(new HashSet<String>(scenarioIds));
         job.setTakeScreenshots(TakeScreenshots.ON_FAILURE);
+        job.setContext(context);
         return job;
     }
 

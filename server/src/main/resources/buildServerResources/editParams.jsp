@@ -41,7 +41,7 @@
             _.each(entities, function(entity){
                 var $option = $("<option></option>")
                         .val(entity.id)
-                        .text(entity.title || entity.username);
+                        .text(entity.title || entity.username || entity.name);
                 if(selectedValues && _.contains(selectedValues, entity.id)){
                     $option.attr('selected', 'selected');
                 }

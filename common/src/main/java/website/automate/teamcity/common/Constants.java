@@ -12,5 +12,7 @@ public class Constants {
     public static final String PROPERTY_NAME_ACCOUNT_PASSWORD = "website.automate.teamcity.account.password";
     public static final String PROPERTY_NAME_PROJECT_ID = "website.automate.teamcity.project";
     public static final String PROPERTY_NAME_SCENARIO_IDS = "website.automate.teamcity.selectedScenarios";
+    public static final String PROPERTY_NAME_EXECUTION_TIMEOUT_SEC = "website.automate.executionTimeoutSec";
+    public static final String PROPERTY_NAME_JOB_STATUS_CHECK_INTERVAL_SEC = "website.automate.jobStatusCheckIntervalSec";
     
 }

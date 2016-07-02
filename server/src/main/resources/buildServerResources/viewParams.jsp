@@ -50,7 +50,7 @@
                 return _.contains(scenarioIds, scenario.id);
             })
             .map(function(scenario){
-                return scenario.title;
+                return scenario.name;
             })
             .join(', ')
             .value();
