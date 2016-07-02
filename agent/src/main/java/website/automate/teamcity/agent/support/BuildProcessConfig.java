@@ -42,7 +42,15 @@ public class BuildProcessConfig {
     }
     
     private static long getParamValueAsLong(Map<String, String> configParameters, String paramName, long defaultValue){
-        return Long.parseLong(configParameters.getOrDefault(paramName, Long.toString(defaultValue)));
+        return Long.parseLong(getOrDefault(configParameters, paramName, Long.toString(defaultValue)));
+    }
+    
+    private static String getOrDefault(Map<String, String> map, String key, String defaultValue){
+        String value = map.get(key);
+        if(value == null){
+            value = defaultValue;
+        }
+        return value;
     }
     
     private BuildProcessConfig(String username, String password,
