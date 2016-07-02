@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ContextParameterResolverTest {
 
     private static final String 
-        ENV_PARAM_NAME = "automate.website.context.x",
+        ENV_PARAM_NAME = "website.automate.context.x",
         CONTEXT_PARAM_NAME = "x",
         CONTEXT_PARAM_VALUE = "y",
         NON_ENV_PARAM_NAME = "x",
