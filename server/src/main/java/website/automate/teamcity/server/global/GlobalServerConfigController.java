@@ -97,7 +97,7 @@ public class GlobalServerConfigController extends BaseFormXmlController {
     private void syncAccount(String id){
         AccountSerializable accountSerializable = configPersistenceManager.getAccount(id);
         
-        List<Project> projects = projectRetrievalService.getProjectsWithScenariosByPrincipal(accountMapper.map(accountSerializable));
+        List<Project> projects = projectRetrievalService.getProjectsWithExecutableScenariosByPrincipal(accountMapper.map(accountSerializable));
         List<ProjectSerializable> projectsSerializable = projectMapper.safeMapCollection(projects);
         
         accountSerializable.setProjects(projectsSerializable);
