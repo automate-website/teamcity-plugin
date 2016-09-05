@@ -16,4 +16,4 @@ Refer to the [wiki pages] for documentation and user information.
 [automate.website]: https://automate.website
 [changelog]: CHANGELOG.md
 [wiki pages]: https://github.com/automate-website/teamcity-plugin/wiki/Home
-[here]: http://repo1.maven.org/maven2/website/automate/teamcity/teamcity-automate-website-build/0.4.0/teamcity-automate-website-build-0.4.0.zip
+[here]: http://repo1.maven.org/maven2/website/automate/teamcity/teamcity-automate-website-build/0.5.0/teamcity-automate-website-build-0.5.0.zip
