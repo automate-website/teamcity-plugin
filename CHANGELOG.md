@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- bumped manager-api-client version
+
 ## [0.4.0]
 ### Changed
 - retrieve executable scenarios only
